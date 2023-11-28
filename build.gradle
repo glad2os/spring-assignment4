@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.0'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.google.cloud.tools.jib' version '3.4.0'
 }
 
 group = 'com.example'
@@ -30,8 +31,37 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.2.0'
 
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+jib {
+    from {
+        image = 'gcr.io/distroless/java17-debian12'
+    }
+    to {
+        image = 'demo-spring-app'
+    }
+    container {
+        ports = ['8002']
+        jvmFlags = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5050']
+        environment = [ 'SPRING_PROFILES_ACTIVE': 'dev' ]
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
 }
