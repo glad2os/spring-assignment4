@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class BookService implements GenericService<Book, String> {
+public class BookService implements GenericService<Book, Long> {
     private final BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
@@ -25,12 +25,12 @@ public class BookService implements GenericService<Book, String> {
     }
 
     @Override
-    public Mono<Book> findById(String id) {
+    public Mono<Book> findById(Long id) {
         return bookRepository.findById(id);
     }
 
     @Override
-    public Mono<Book> update(String id, Book book) {
+    public Mono<Book> update(Long id, Book book) {
         return bookRepository.findById(id)
                 .flatMap(existingBook -> {
                     existingBook.setTitle(book.getTitle());
@@ -42,7 +42,7 @@ public class BookService implements GenericService<Book, String> {
     }
 
     @Override
-    public Mono<Void> deleteById(String id) {
+    public Mono<Void> deleteById(Long id) {
         return bookRepository.deleteById(id);
     }
 }
