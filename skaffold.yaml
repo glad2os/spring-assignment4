@@ -4,8 +4,7 @@ build:
   artifacts:
     - image: demo-spring-app
       context: .
-      docker:
-        dockerfile: Dockerfile
+      jib: {}
 deploy:
   kubectl:
     manifests:
@@ -19,3 +18,6 @@ portForward:
     resourceName: demo-service
     port: 5050
     localPort: 5050
+  - resourceType: service
+    resourceName: mongodb
+    port: 27017
