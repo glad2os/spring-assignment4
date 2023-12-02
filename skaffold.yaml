@@ -2,9 +2,13 @@ apiVersion: skaffold/v2beta17
 kind: Config
 build:
   artifacts:
-    - image: demo-spring-app
+    - image: glad2os/demo-spring-app
       context: .
       jib: {}
+    - image: glad2os/svelte
+      context: svelte
+      docker:
+        dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
@@ -21,3 +25,7 @@ portForward:
   - resourceType: service
     resourceName: mongodb
     port: 27017
+  - resourceType: service
+    resourceName: svelte-service
+    port: 80
+    localPort: 5173

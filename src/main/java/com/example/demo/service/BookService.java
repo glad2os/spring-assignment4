@@ -2,12 +2,13 @@ package com.example.demo.service;
 
 import com.example.demo.models.Book;
 import com.example.demo.repository.BookRepository;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class BookService implements GenericService<Book, Long> {
+public class BookService implements GenericService<Book, ObjectId> {
     private final BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
@@ -25,12 +26,12 @@ public class BookService implements GenericService<Book, Long> {
     }
 
     @Override
-    public Mono<Book> findById(Long id) {
+    public Mono<Book> findById(ObjectId id) {
         return bookRepository.findById(id);
     }
 
     @Override
-    public Mono<Book> update(Long id, Book book) {
+    public Mono<Book> update(ObjectId id, Book book) {
         return bookRepository.findById(id)
                 .flatMap(existingBook -> {
                     existingBook.setTitle(book.getTitle());
@@ -42,7 +43,7 @@ public class BookService implements GenericService<Book, Long> {
     }
 
     @Override
-    public Mono<Void> deleteById(Long id) {
+    public Mono<Void> deleteById(ObjectId id) {
         return bookRepository.deleteById(id);
     }
 }

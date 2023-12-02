@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: demo
-          image: demo-spring-app
+          image: glad2os/demo-spring-app
           ports:
             - containerPort: 8080
             - containerPort: 5005

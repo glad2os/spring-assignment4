@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.GenericService;
-import jakarta.annotation.Nonnull;
+import org.bson.types.ObjectId;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -28,12 +27,11 @@ public class GenericController <T, ID>{
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<T>> findById(@PathVariable ID id) {
-        return service.findById(id)
+    public Mono<ResponseEntity<T>> findById(@PathVariable String id) {
+        return service.findById((ID) new ObjectId(id))
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
-
     @PutMapping("/{id}")
     public Mono<ResponseEntity<T>> update(@PathVariable ID id, @RequestBody T entity) {
         return service.update(id, entity)
