@@ -1,15 +1,14 @@
 package com.example.demo.service;
 
 import com.example.demo.models.Member;
-import com.example.demo.models.Member;
 import com.example.demo.repository.MemberRepository;
-import com.example.demo.repository.MemberRepository;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class MemberService implements GenericService<Member, Long> {
+public class MemberService implements GenericService<Member, ObjectId> {
     private final MemberRepository memberRepository;
 
     public MemberService(MemberRepository MemberRepository) {
@@ -27,12 +26,12 @@ public class MemberService implements GenericService<Member, Long> {
     }
 
     @Override
-    public Mono<Member> findById(Long id) {
+    public Mono<Member> findById(ObjectId id) {
         return memberRepository.findById(id);
     }
 
     @Override
-    public Mono<Member> update(Long id, Member Member) {
+    public Mono<Member> update(ObjectId id, Member Member) {
         return memberRepository
                 .findById(id)
                 .flatMap(existingMember -> {
@@ -47,7 +46,7 @@ public class MemberService implements GenericService<Member, Long> {
     }
 
     @Override
-    public Mono<Void> deleteById(Long id) {
+    public Mono<Void> deleteById(ObjectId id) {
         return memberRepository.deleteById(id);
     }
 }
