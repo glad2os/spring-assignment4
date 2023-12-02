@@ -47,7 +47,7 @@ jib {
         image = 'gcr.io/distroless/java17-debian12'
     }
     to {
-        image = 'demo-spring-app'
+        image = 'glad2os/demo-spring-app'
     }
     container {
         ports = ['8002']
